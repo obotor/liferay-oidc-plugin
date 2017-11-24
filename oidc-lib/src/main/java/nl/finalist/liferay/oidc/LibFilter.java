@@ -46,6 +46,11 @@ public class LibFilter  {
     public static final String OPENID_CONNECT_SESSION_ATTR = "OpenIDConnectUserInfo";
 
     /**
+     * Session attribute name containing the AccessToken
+     */
+    public static final String ACCESS_TOKEN_SESSION_ATTR = "LIFERAY_SHARED_AccessToken";
+
+    /**
      * Location of the authorization service (request token)
      */
     public final String AUTHORIZATION_LOCATION;
@@ -186,6 +191,9 @@ public class LibFilter  {
 
             liferay.debug("Setting OpenIDUserInfo object in session: " + openIDUserInfo);
             request.getSession().setAttribute(OPENID_CONNECT_SESSION_ATTR, openIDUserInfo);
+            request.getSession().setAttribute(ACCESS_TOKEN_SESSION_ATTR, accessToken);
+            request.setAttribute(OPENID_CONNECT_SESSION_ATTR, openIDUserInfo);
+            request.setAttribute(ACCESS_TOKEN_SESSION_ATTR, accessToken);
 
         } catch (OAuthSystemException | OAuthProblemException e) {
             throw new IOException("While exchanging code for access token and retrieving user info", e);
