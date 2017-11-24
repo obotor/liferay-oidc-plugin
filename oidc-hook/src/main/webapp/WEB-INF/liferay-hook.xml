@@ -2,6 +2,8 @@
 <!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.2.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_2_0.dtd">
 <hook>
     <portal-properties>portal-hook.properties</portal-properties>
+    <custom-jsp-dir>/custom-jsp</custom-jsp-dir>
+	<custom-jsp-global>true</custom-jsp-global>
     <servlet-filter>
         <servlet-filter-name>OpenID Connect SSO Filter</servlet-filter-name>
         <servlet-filter-impl>nl.finalist.liferay.oidc.OpenIDConnectFilter</servlet-filter-impl>
