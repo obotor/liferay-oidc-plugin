@@ -48,6 +48,7 @@ public class OpenIDConnectFilter extends BaseFilter {
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws Exception {
 
         FilterResult filterResult = libFilter.processFilter(request, response, filterChain);
+        LOG.info("token: " + request.getAttribute("LIFERAY_SHARED_AccessToken"));
         if (filterResult == FilterResult.CONTINUE_CHAIN) { 
         	processFilter(getClass(), request, response, filterChain);
         }
