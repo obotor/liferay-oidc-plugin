@@ -16,6 +16,8 @@
  */
 package nl.finalist.liferay.oidc;
 
+import java.util.Arrays;
+
 import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.jwt.JWT;
@@ -34,6 +36,8 @@ public class OpenIdConnectResponse extends OAuthJSONAccessTokenResponse {
             throws OAuthProblemException {
         super.init(body, contentType, responseCode);
         idToken = new JWTReader().read(getParam("id_token"));
+        System.out.println("Raw id token: " + getIdToken());
+        System.out.println("Raw access token: " + getAccessToken());
     }
 
     public final JWT getIdToken() {
@@ -49,6 +53,20 @@ public class OpenIdConnectResponse extends OAuthJSONAccessTokenResponse {
      * @return
      */
     public boolean checkId(String issuer, String audience) {
+    	System.out.println(toString());
+    	String roles = "???";
+    	if (idToken != null) {
+    		Object rolesObj = idToken.getClaimsSet().getCustomField("roles", Object.class);
+    		System.out.println(rolesObj.getClass().isArray());
+    		try {
+    			roles = Arrays.asList((Object[]) rolesObj).stream().reduce((role, acc) -> {
+    				return (String) role + "; ";
+    			}).toString();
+    		} catch (Exception e) {
+    			System.out.println("cast failed" + e.getMessage());
+    		}
+    	}
+    	System.out.println(roles);
         if (idToken.getClaimsSet().getIssuer().equals(issuer)
                 && idToken.getClaimsSet().getAudience().equals(audience)
                 && idToken.getClaimsSet().getExpirationTime() < System
