@@ -22,12 +22,17 @@ import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.jwt.JWT;
 import org.apache.oltu.oauth2.jwt.io.JWTReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class copied from snapshot of Oltu
+ * with added logger & logging
  *
  */
 public class OpenIdConnectResponse extends OAuthJSONAccessTokenResponse {
+
+	private static final Logger LOG = LoggerFactory.getLogger(OpenIdConnectResponse.class);
 
     private JWT idToken;
 
@@ -36,8 +41,8 @@ public class OpenIdConnectResponse extends OAuthJSONAccessTokenResponse {
             throws OAuthProblemException {
         super.init(body, contentType, responseCode);
         idToken = new JWTReader().read(getParam("id_token"));
-        System.out.println("Raw id token: " + getIdToken());
-        System.out.println("Raw access token: " + getAccessToken());
+        LOG.debug("Raw id token: " + getIdToken());
+        LOG.debug("Raw access token: " + getAccessToken());
     }
 
     public final JWT getIdToken() {
@@ -53,20 +58,20 @@ public class OpenIdConnectResponse extends OAuthJSONAccessTokenResponse {
      * @return
      */
     public boolean checkId(String issuer, String audience) {
-    	System.out.println(toString());
+    	LOG.debug(toString());
     	String roles = "???";
     	if (idToken != null) {
     		Object rolesObj = idToken.getClaimsSet().getCustomField("roles", Object.class);
-    		System.out.println(rolesObj.getClass().isArray());
+    		LOG.debug(String.valueOf(rolesObj.getClass().isArray()));
     		try {
     			roles = Arrays.asList((Object[]) rolesObj).stream().reduce((role, acc) -> {
     				return (String) role + "; ";
     			}).toString();
     		} catch (Exception e) {
-    			System.out.println("cast failed" + e.getMessage());
+    			LOG.warn("cast failed " + e.getMessage());
     		}
     	}
-    	System.out.println(roles);
+    	LOG.debug(roles);
         if (idToken.getClaimsSet().getIssuer().equals(issuer)
                 && idToken.getClaimsSet().getAudience().equals(audience)
                 && idToken.getClaimsSet().getExpirationTime() < System
@@ -83,5 +88,4 @@ public class OpenIdConnectResponse extends OAuthJSONAccessTokenResponse {
     public String toString() {
     	return idToken == null ? "idToken=null" : idToken.toString();
     }
-
 }

@@ -101,7 +101,6 @@ public class Liferay62Adapter implements LiferayAdapter {
         }
     }
 
-
     // Copied from OpenSSOAutoLogin.java
     protected User addUser(
             long companyId, String emailAddress, String firstName, String lastName)
@@ -146,7 +145,6 @@ public class Liferay62Adapter implements LiferayAdapter {
         UserLocalServiceUtil.updateUser(user);
         return user;
     }
-
 
     private void updateUser(User user, String firstName, String lastName) {
         user.setFirstName(firstName);

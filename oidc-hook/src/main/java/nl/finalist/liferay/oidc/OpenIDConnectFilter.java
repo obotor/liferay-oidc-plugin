@@ -53,5 +53,4 @@ public class OpenIDConnectFilter extends BaseFilter {
         	processFilter(getClass(), request, response, filterChain);
         }
     }
-
 }

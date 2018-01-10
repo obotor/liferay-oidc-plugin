@@ -39,7 +39,6 @@ public class LibFilter  {
     	BREAK_CHAIN;
     }
     
-    
     /**
      * Session attribute name containing the UserInfo
      */
@@ -94,7 +93,6 @@ public class LibFilter  {
 
     public LibFilter(LiferayAdapter liferay) {
         this.liferay = liferay;
-
 
         AUTHORIZATION_LOCATION = liferay.getPortalProperty("openidconnect.authorization-location");
         TOKEN_LOCATION = liferay.getPortalProperty("openidconnect.token-location");
@@ -187,7 +185,7 @@ public class LibFilter  {
                     oAuthClient.resource(userInfoRequest, OAuth.HttpMethod.GET, OAuthResourceResponse.class);
 
             liferay.debug("Response from UserInfo request: " + userInfoResponse.getBody());
-            Map openIDUserInfo = new ObjectMapper().readValue(userInfoResponse.getBody(), HashMap.class);
+            Map<?, ?> openIDUserInfo = new ObjectMapper().readValue(userInfoResponse.getBody(), HashMap.class);
 
             liferay.debug("Setting OpenIDUserInfo object in session: " + openIDUserInfo);
             request.getSession().setAttribute(OPENID_CONNECT_SESSION_ATTR, openIDUserInfo);
@@ -231,6 +229,4 @@ public class LibFilter  {
     protected boolean isUserLoggedIn(HttpServletRequest request) {
         return liferay.isUserLoggedIn(request);
     }
-
-
 }

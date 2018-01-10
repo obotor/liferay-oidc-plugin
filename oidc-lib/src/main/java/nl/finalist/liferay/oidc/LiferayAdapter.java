@@ -2,7 +2,6 @@ package nl.finalist.liferay.oidc;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 public interface LiferayAdapter {
 
     String getPortalProperty(String propertyKey);
@@ -32,5 +31,4 @@ public interface LiferayAdapter {
      * @return the userId of the created or updated User, as a String
      */
     String createOrUpdateUser(long companyId, String emailAddress, String firstName, String lastName);
-
 }

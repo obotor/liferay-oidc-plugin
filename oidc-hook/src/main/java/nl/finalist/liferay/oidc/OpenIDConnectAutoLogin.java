@@ -26,6 +26,4 @@ public class OpenIDConnectAutoLogin extends BaseAutoLogin {
     protected String[] doLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return libAutologin.doLogin(request, response);
     }
-
-
 }
