@@ -106,10 +106,15 @@
 
     <repositories>
         <repository>
-        <id>releases-public</id>
-        <name>Finalist public releases</name>
-        <url>https://nexus.iprofs.nl/content/repositories/releases-public</url>
-    </repository>
+            <id>releases-public</id>
+            <name>Finalist public releases</name>
+            <url>https://nexus.iprofs.nl/content/repositories/releases-public</url>
+        </repository>
+        <repository>
+            <id>maven-central</id>
+            <name>Maven Central</name>
+            <url>http://repo.maven.apache.org/maven2/</url>
+        </repository>
     </repositories>
 
 	 <licenses>
